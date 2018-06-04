@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HelloControllerIT {
+public class URLControllerIT {
 
     @LocalServerPort
     private int port;
@@ -33,10 +33,9 @@ public class HelloControllerIT {
     }
 
     @Test
-    public void getHello() throws Exception {
+    public void getIndex() throws Exception {
         ResponseEntity<String> response = template.getForEntity(base.toString(),
                 String.class);
         assertThat(response.getBody(), equalTo("Greetings from Spring Boot!"));
-//        assertThat(1, equalTo(1));
     }
 }
