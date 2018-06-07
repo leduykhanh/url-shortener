@@ -29,9 +29,14 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     // tag::actuator[]
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Use MySQL Connector-J
+    //compile 'mysql:mysql-connector-java'
+    //compile 'postgresql:postgresql:42.2.2'
+    runtime('org.postgresql:postgresql')
     // end::actuator[]
     // tag::tests[]
     testCompile("org.springframework.boot:spring-boot-starter-test")
     // end::tests[]
 }
-
