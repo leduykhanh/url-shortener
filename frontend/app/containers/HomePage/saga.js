@@ -8,18 +8,19 @@ const BASE_URL = 'http://localhost:8080';
 
 export function* getData(action) {
 
-  const requestURL = `${BASE_URL}/polls/data`;
+  const requestURL = `${BASE_URL}/geturl`;
 
   try {
     const options = {
-      method: 'GET',
-      // headers: {
-      //   'Accept': 'application/json',
-      //   'Content-Type': 'application/json'
-      // },
-      //body: JSON.stringify(action.payload),
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(action.payload),
     };
     const data = yield call(request, requestURL, options);
+    action.callback && action.callback (data);
 
     yield put(dataLoaded(data.data));
   } catch (err) {

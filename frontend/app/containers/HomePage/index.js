@@ -26,7 +26,6 @@ import { loadData, genrateUrl } from './actions';
 import { createStructuredSelector } from 'reselect';
 import makeSelectLogin from 'containers/Login/selectors';
 import makeSelectData from './selectors';
-import CryptoSelect from 'components/CryptoSelect';
 import Dropdowns from 'components/Dropdowns';
 
  export class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -35,6 +34,13 @@ import Dropdowns from 'components/Dropdowns';
     shortened: null,
   }
   componentWillMount(){
+    if (this.props.match.params.id) {
+      this.props.dispatch(loadData({shortened: `localhost:3000/${this.props.match.params.id}`}, this.redirect));
+    }
+  }
+
+  redirect(data){
+    window.location.assign("http://" + data.url);
   }
 
   genrateUrl(){
@@ -42,14 +48,12 @@ import Dropdowns from 'components/Dropdowns';
   }
 
   handleData(data){
-    console.log(data.shortened);
     this.setState({shortened: data.shortened});
   }
 
   render() {
     return (
       <div>
-        { /*<h2>{this.props.login.username}</h2> */}
           <h1>URL shortener</h1>
           <div className="row">
             <div className="border padding-10 col-sm-6 offset-sm-3">
@@ -61,7 +65,7 @@ import Dropdowns from 'components/Dropdowns';
             <div>
             {
               this.state.shortened ?
-              <div> Result : <a href={this.state.shortened}>{this.state.shortened}</a> </div> : ""
+              <div> Result : <a href={`http://${this.state.shortened}`}>{this.state.shortened}</a> </div> : ""
 
             }
             </div>
