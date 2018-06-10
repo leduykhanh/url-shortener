@@ -1,5 +1,9 @@
 # url-shortener
-URL shortener - Java
+## URL shortener - Java
 
-npm start
-localhost:3000
+* front end
+- npm start
+- Visit http://localhost:3000
+
+* backend
+- mvn clean spring-boot:run
