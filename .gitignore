@@ -38,3 +38,14 @@ transaction-logs
 secrets.yml
 .gradletasknamecache
 .sts4-cache
+
+# Don't check auto-generated stuff into git
+coverage
+node_modules
+build
+stats.json
+
+# Cruft
+.DS_Store
+npm-debug.log
+.idea
