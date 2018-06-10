@@ -4,8 +4,7 @@ import { dataLoaded, dataLoadingError, dataAdded } from 'containers/HomePage/act
 
 import request from 'utils/request';
 
-const BASE_URL = 'http://206.189.40.141:8000';
-//const BASE_URL = 'http://127.0.0.1:8000';
+const BASE_URL = 'http://localhost:8080';
 
 export function* getData(action) {
 
@@ -28,9 +27,9 @@ export function* getData(action) {
   }
 }
 
-export function* addData(action) {
+export function* genrateUrl(action) {
 
-  const requestURL = `${BASE_URL}/polls/add_order`;
+  const requestURL = `${BASE_URL}/generate_url`;
 
   try {
     const options = {
@@ -42,6 +41,7 @@ export function* addData(action) {
       body: JSON.stringify(action.payload),
     };
     const data = yield call(request, requestURL, options);
+    action.callback && action.callback (data);
 
     yield put(dataLoaded(data.data));
   } catch (err) {
@@ -54,5 +54,5 @@ export function* addData(action) {
  */
 export default function* hompageSaga() {
   yield takeLatest(LOAD_DATA, getData);
-  yield takeLatest(NEW_DATA, addData);
+  yield takeLatest(NEW_DATA, genrateUrl);
 }

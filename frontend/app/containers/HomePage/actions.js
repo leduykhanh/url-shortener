@@ -18,10 +18,11 @@ export function loadData() {
   };
 }
 
-export function addData(payload) {
+export function genrateUrl(payload, callback) {
   return {
     type: NEW_DATA,
-    payload
+    payload,
+    callback
   };
 }
 

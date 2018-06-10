@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
@@ -36,11 +37,11 @@ public class UserDao {
   
   
   public User getByEmailPassword(String email, String password) {
-    return (User) entityManager.createQuery(
-        "from User where email = :email and password = :password")
-        .setParameter("email", email)
-        .setParameter("password", password)
-        .getSingleResult();
+	  Query query = entityManager.createQuery(
+		        "from User where email = :email and password = :password");
+	  query.setParameter("email", email);
+	  query.setParameter("password", password);
+	  return (User) query.getSingleResult();
   }
 
   
