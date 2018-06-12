@@ -55,6 +55,10 @@ import Dropdowns from 'components/Dropdowns';
   }
 
   genrateUrl(){
+    let urlR = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+    if (!urlR.test(this.state.url)) {
+      return alert("Please enter correct url");
+    }
     this.props.dispatch(genrateUrl(this.state, this.handleData.bind(this)));
   }
 
