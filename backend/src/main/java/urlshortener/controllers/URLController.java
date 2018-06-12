@@ -3,7 +3,9 @@ package urlshortener.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import urlshortener.models.Url;
+import urlshortener.models.User;
 import urlshortener.models.dao.UrlDao;
+import urlshortener.models.dao.UserDao;
 import utils.URLShortener;
 
 import java.io.IOException;
@@ -27,7 +29,6 @@ public class URLController {
     		urlRecord = urlDao.getByUrl(url);
     	}
     	catch (Exception ex) {
-    		System.out.println(ex.getMessage());
 	    	URLShortener u = new URLShortener(5, "http://localhost:3000");
 	    	urlRecord = new Url(url, u.shortenURL(url));
 	    	urlDao.create(urlRecord);
@@ -39,13 +40,20 @@ public class URLController {
     @RequestMapping(value="/geturl",method=RequestMethod.POST)
     public Url geturl(@RequestBody Map<String, String> payload) throws IOException{
     	String url = payload.get("shortened");
+    	String token = payload.get("token");
     	Url urlRecord;
     	urlRecord = urlDao.getByShortened(url);
+    	User user = userDao.getByToken(token);
+    	urlRecord.users.add(user);
+    	urlDao.update(urlRecord);
     	return urlRecord;
     }
     	
     
     @Autowired
     public UrlDao urlDao;
+    
+    @Autowired
+    public UserDao userDao;
     
 }

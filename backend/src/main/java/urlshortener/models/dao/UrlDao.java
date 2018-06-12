@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import urlshortener.models.Url;
+import urlshortener.models.User;
 
 @Repository
 @Transactional
@@ -33,6 +34,11 @@ public class UrlDao {
 	        "from Url where shortened = :shortened")
 	        .setParameter("shortened", shortened)
 	        .getSingleResult();
+	  }
+  
+  public void update(Url url) {
+	    entityManager.merge(url);
+	    return;
 	  }
 
 

@@ -35,13 +35,26 @@ public class UserDao {
     return entityManager.createQuery("from User").getResultList();
   }
   
+  public User getByEmail(String email) {
+	    return (User) entityManager.createQuery(
+	        "from User where email = :email")
+	        .setParameter("email", email)
+	        .getSingleResult();
+	  }
   
-  public User getByEmailPassword(String email, String password) {
-	  Query query = entityManager.createQuery(
-		        "from User where email = :email and password = :password");
-	  query.setParameter("email", email);
-	  query.setParameter("password", password);
-	  return (User) query.getSingleResult();
+  public User getByToken(String token) {
+	  System.out.println(token);
+	    return (User) entityManager.createQuery(
+	        "from User where token = :token")
+	        .setParameter("token", token)
+	        .getSingleResult();
+	  }
+  
+  public User getByEmailPassword(String email, String password) throws Exception {
+	  User user = getByEmail(email);
+	  if (!user.getPassword().equals( password))
+		  throw new Exception("No user");
+	  return user;
   }
 
   

@@ -3,9 +3,6 @@ package utils;
 import java.util.HashMap;
 import java.util.Random;
 
-/*
- * URL Shortener
- */
 public class URLShortener {
 	private HashMap<String, String> keyMap; 
 	private HashMap<String, String> valueMap;
@@ -33,7 +30,7 @@ public class URLShortener {
 			}
 			myChars[i] = (char) j;
 		}
-		domain = "http://localhost:8080";
+		domain = "http://localhost:3000";
 	}
 
 
@@ -41,7 +38,7 @@ public class URLShortener {
 		this();
 		this.keyLength = length;
 		if (!newDomain.isEmpty()) {
-			newDomain = sanitizeURL(newDomain);
+//			newDomain = sanitizeURL(newDomain);
 			domain = newDomain;
 		}
 	}
@@ -110,7 +107,7 @@ public class URLShortener {
 
 	// test the code
 	public static void main(String args[]) {
-		URLShortener u = new URLShortener(5, "http://localhost:8080");
+		URLShortener u = new URLShortener(5, "http://localhost:3000");
 		String urls[] = { "www.google.com/", "www.google.com", "http://jangkoo.com/" };
 
 		for (int i = 0; i < urls.length; i++) {

@@ -14,7 +14,9 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import cookie from 'react-cookies';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -28,19 +30,28 @@ import makeSelectLogin from 'containers/Login/selectors';
 import makeSelectData from './selectors';
 import Dropdowns from 'components/Dropdowns';
 
+
  export class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   state = {
-    url: "google.com",
+    url: "http://google.com",
     shortened: null,
   }
   componentWillMount(){
+
+    if (cookie.load("token") === undefined) {
+      this.props.history.push("login");
+    }
     if (this.props.match.params.id) {
-      this.props.dispatch(loadData({shortened: `localhost:3000/${this.props.match.params.id}`}, this.redirect));
+      let id = this.props.match.params.id;
+      this.props.dispatch(loadData({
+            shortened: `http://localhost:3000/${id}`,
+            token:cookie.load("token") }
+      , this.redirect));
     }
   }
 
   redirect(data){
-    window.location.assign("http://" + data.url);
+    window.location.assign(data.url);
   }
 
   genrateUrl(){
@@ -60,12 +71,12 @@ import Dropdowns from 'components/Dropdowns';
             <div className="form-group">
               <label>Key in Url</label>
               <input onChange={(e) => this.setState({url:e.target.value})}
-                type="text" className="form-control" placeholder="google.com" />
+                type="text" className="form-control" placeholder="http://google.com" />
             </div>
             <div>
             {
               this.state.shortened ?
-              <div> Result : <a href={`http://${this.state.shortened}`}>{this.state.shortened}</a> </div> : ""
+              <div> Result : <a href={`${this.state.shortened}`}>{this.state.shortened}</a> </div> : ""
 
             }
             </div>
@@ -86,7 +97,7 @@ HomePage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 const mapStateToProps = createStructuredSelector({
-  // login: makeSelectLogin(),
+  login: makeSelectLogin(),
   data: makeSelectData(),
 });
 
@@ -103,6 +114,6 @@ const withSaga = injectSaga({ key: 'home', saga });
 export default compose(
   withReducer,
   withSaga,
-  withConnect, ) (HomePage);
+  withConnect, ) (withRouter(HomePage));
 
 // export default HomePage;

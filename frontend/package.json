@@ -226,6 +226,8 @@
     "node-sass": "^4.9.0",
     "prop-types": "15.5.10",
     "react": "15.6.1",
+    "react-cookie": "^2.1.6",
+    "react-cookies": "^0.1.0",
     "react-dom": "15.6.1",
     "react-easy-swipe": "0.0.14",
     "react-helmet": "5.1.3",

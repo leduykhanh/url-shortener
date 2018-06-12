@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,7 +46,7 @@ public class UserController {
     return "User succesfully deleted!";
   }
   
-
+  @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value="/login")
   @ResponseBody
   public User login(@RequestBody Map<String, String> payload) {

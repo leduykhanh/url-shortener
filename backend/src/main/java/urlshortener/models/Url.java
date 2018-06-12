@@ -32,7 +32,7 @@ public class Url {
     @JoinTable(name = "url_user",
             joinColumns = { @JoinColumn(name = "url_id") },
             inverseJoinColumns = { @JoinColumn(name = "user_id") })
-    private Set<User> users = new HashSet<>();
+    public Set<User> users = new HashSet<>();
     
     public Url() {}
     

@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import cookie from 'react-cookies';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -17,16 +18,25 @@ import makeSelectLogin from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import {loginAction} from './actions';
+
 import './scss/style.scss';
 
 
 export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
   state = {
-    username: "leejangkoo.com",
+    email: "leejangkoo@gmail.com",
     password: "4621bbdd28bde311",
+    loginIn: false,
   };
-  login(){
-    this.props.dispatch(loginAction(this.state.username, this.state.password));
+  login(e){
+    e.preventDefault();
+    this.setState({ loginIn : true });
+    this.props.dispatch(loginAction(this.state.email, this.state.password, this.loginSuccess.bind(this)));
+    //;
+  }
+  loginSuccess(data) {
+    const { cookies } = this.props;
+    cookie.save('token', data.token, { path: '/' });
     this.props.history.push("/");
   }
 
@@ -35,18 +45,18 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       <div className="row">
         <div className="col-sm-6 offset-sm-6">
           <div className="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input onChange={(text) => this.setState({username:text})} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+            <label htmlFor="exampleInputEmail1">Email address</label>
+            <input onChange={(e) => this.setState({email:e.target.value})} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
           </div>
           <div className="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+            <label htmlFor="exampleInputPassword1">Password</label>
+            <input onChange={(e) => this.setState({password:e.target.value})} type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
           </div>
           <div className="form-check">
             <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-            <label className="form-check-label" for="exampleCheck1">Remember me</label>
+            <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
           </div>
-          <button onClick={this.login.bind(this)} type="submit" className="btn btn-primary">Login</button>
+          <button disabled={this.state.loginIn} onClick={this.login.bind(this)} type="submit" className="btn btn-primary">Login</button>
         </div>
     </div>
     );
